@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berita Kampus - Universitas Teknologi Indonesia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Search & Filter */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border: none;
+            border-radius: 10px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .category-btn:hover {
+            background: #e2e8f0;
+            transform: translateX(5px);
+        }
+
+        .category-btn.active {
+            background: #3b82f6;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .category-count {
+            background: #e2e8f0;
+            color: #64748b;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .category-btn.active .category-count {
+            background: #1e40af;
+            color: white;
+        }
+
+        /* Tags */
+        .tags-section {
+            margin-top: 2rem;
+        }
+
+        .tags-section h4 {
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: #3b82f6;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* News Content */
+        .news-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .featured-badge {
+            background: #ef4444;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* News Cards */
+        .news-grid {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .news-card.featured {
+            border: 3px solid #ef4444;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-akademik { background: #dbeafe; color: #1e40af; }
+        .badge-prestasi { background: #fef3c7; color: #d97706; }
+        .badge-kegiatan { background: #d1fae5; color: #059669; }
+        .badge-beasiswa { background: #e9d5ff; color: #7c3aed; }
+        .badge-kerjasama { background: #e0e7ff; color: #4338ca; }
+
+        .news-date {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #1f2937;
+            line-height: 1.4;
+        }
+
+        .news-title:hover {
+            color: #3b82f6;
+            cursor: pointer;
+        }
+
+        .news-summary {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .news-author {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .news-stats {
+            display: flex;
+            gap: 1rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .read-more {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .read-more:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        /* Regular news layout */
+        .regular-news .news-card {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+        }
+
+        .regular-news .news-image {
+            height: 100%;
+            min-height: 180px;
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #374151;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .search-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .regular-news .news-card {
+                grid-template-columns: 1fr;
+            }
+
+            .news-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .news-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>🎓 Berita Kampus</h1>
+            <p>Informasi Terkini Universitas Teknologi Indonesia</p>
+            
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Cari berita..." id="searchInput">
+                    <button class="search-btn" id="searchBtn">🔍</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <h3>📂 Kategori Berita</h3>
+                <ul class="category-list">
+                    <li class="category-item">
+                        <button class="category-btn active" data-category="all">
+                            <span>🏢 Semua Berita</span>
+                            <span class="category-count" id="count-all">6</span>
+                        </button>
+                    </li>
+                    <li class="category-item">
+                        <button class="category-btn" data-category="akademik">
+                            <span>📚 Akademik</span>
+                            <span class="category-count" id="count-akademik">1</span>
+                        </button>
+                    </li>
+                    <li class="category-item">
+                        <button class="category-btn" data-category="prestasi">
+                            <span>🏆 Prestasi</span>
+                            <span class="category-count" id="count-prestasi">1</span>
+                        </button>
+                    </li>
+                    <li class="category-item">
+                        <button class="category-btn" data-category="kegiatan">
+                            <span>👥 Kegiatan</span>
+                            <span class="category-count" id="count-kegiatan">2</span>
+                        </button>
+                    </li>
+                    <li class="category-item">
+                        <button class="category-btn" data-category="beasiswa">
+                            <span>💰 Beasiswa</span>
+                            <span class="category-count" id="count-beasiswa">1</span>
+                        </button>
+                    </li>
+                    <li class="category-item">
+                        <button class="category-btn" data-category="kerjasama">
+                            <span>🤝 Kerjasama</span>
+                            <span class="category-count" id="count-kerjasama">1</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tags-section">
+                    <h4>🔥 Tag Populer</h4>
+                    <div class="tags">
+                        <span class="tag">#akreditasi</span>
+                        <span class="tag">#robotika</span>
+                        <span class="tag">#beasiswa</span>
+                        <span class="tag">#workshop</span>
+                        <span class="tag">#kerjasama</span>
+                        <span class="tag">#festival</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- News Section -->
+            <main class="news-section">
+                <!-- Featured News -->
+                <section id="featuredSection">
+                    <h2 class="section-title">
+                        🔥 <span class="featured-badge">FEATURED</span> Berita Utama
+                    </h2>
+                    <div class="news-grid" id="featuredNews">
+                        <!-- Featured news akan dimuat di sini -->
+                    </div>
+                </section>
+
+                <!-- Regular News -->
+                <section id="regularSection">
+                    <h2 class="section-title" id="sectionTitle">📰 Semua Berita</h2>
+                    <div class="news-grid regular-news" id="regularNews">
+                        <!-- Regular news akan dimuat di sini -->
+                    </div>
+                </section>
+
+                <!-- No Results -->
+                <div class="no-results" id="noResults" style="display: none;">
+                    <h3>🔍 Tidak ada berita ditemukan</h3>
+                    <p>Coba ubah kata kunci pencarian atau kategori yang dipilih.</p>
+                </div>
+
+                <!-- Loading -->
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Data berita
+        const newsData = [
+            {
+                id: 1,
+                title: "Universitas Teknologi Indonesia Raih Akreditasi A untuk Program Teknik Informatika",
+                summary: "Program Studi Teknik Informatika UTI berhasil meraih akreditasi A dari BAN-PT setelah melalui proses evaluasi ketat selama 6 bulan.",
+                category: "akademik",
+                author: "Dr. Sari Indrawati",
+                date: "2025-06-15",
+                image: "https://picsum.photos/600/300?random=1",
+                views: 1250,
+                comments: 23,
+                featured: true,
+                tags: ["akreditasi", "teknik informatika", "BAN-PT"]
+            },
+            {
+                id: 2,
+                title: "Mahasiswa UTI Juara 1 Kompetisi Nasional Robotika 2025",
+                summary: "Tim robotika 'Tech Warriors' berhasil meraih juara 1 dalam Kompetisi Robotika Nasional yang diselenggarakan di Jakarta.",
+                category: "prestasi",
+                author: "Prof. Ahmad Rizki",
+                date: "2025-06-14",
+                image: "https://picsum.photos/600/300?random=2",
+                views: 980,
+                comments: 45,
+                featured: true,
+                tags: ["robotika", "juara", "kompetisi"]
+            },
+            {
+                id: 3,
+                title: "Pembukaan Pendaftaran Beasiswa Prestasi Semester Genap 2025",
+                summary: "UTI membuka pendaftaran beasiswa prestasi untuk mahasiswa berprestasi dengan total dana 2 miliar rupiah.",
+                category: "beasiswa",
+                author: "Bagian Kemahasiswaan",
+                date: "2025-06-13",
+                image: "https://picsum.photos/600/300?random=3",
+                views: 2100,
+                comments: 67,
+                featured: false,
+                tags: ["beasiswa", "prestasi", "pendaftaran"]
+            },
+            {
+                id: 4,
+                title: "Workshop 'Digital Marketing untuk UMKM' Sukses Digelar",
+                summary: "Lebih dari 200 peserta mengikuti workshop digital marketing yang diselenggarakan oleh Fakultas Ekonomi UTI.",
+                category: "kegiatan",
+                author: "Dr. Maya Sari",
+                date: "2025-06-12",
+                image: "https://picsum.photos/600/300?random=4",
+                views: 750,
+                comments: 12,
+                featured: false,
+                tags: ["workshop", "digital marketing", "UMKM"]
+            },
+            {
+                id: 5,
+                title: "Kerjasama UTI dengan Perusahaan Teknologi Global",
+                summary: "UTI menandatangani MoU dengan tiga perusahaan teknologi multinasional untuk program magang dan penelitian.",
+                category: "kerjasama",
+                author: "Humas UTI",
+                date: "2025-06-11",
+                image: "https://picsum.photos/600/300?random=5",
+                views: 1500,
+                comments: 34,
+                featured: false,
+                tags: ["kerjasama", "teknologi", "magang"]
+            },
+            {
+                id: 6,
+                title: "Festival Seni dan Budaya UTI 2025 Meriah Digelar",
+                summary: "Festival tahunan yang menampilkan kreativitas mahasiswa dari berbagai daerah Indonesia sukses menarik ribuan pengunjung.",
+                category: "kegiatan",
+                author: "BEM UTI",
+                date: "2025-06-10",
+                image: "https://picsum.photos/600/300?random=6",
+                views: 890,
+                comments: 28,
+                featured: false,
+                tags: ["festival", "seni", "budaya"]
+            }
+        ];
+
+        // State management
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const featuredSection = document.getElementById('featuredSection');
+        const regularSection = document.getElementById('regularSection');
+        const featuredNews = document.getElementById('featuredNews');
+        const regularNews = document.getElementById('regularNews');
+        const sectionTitle = document.getElementById('sectionTitle');
+        const noResults = document.getElementById('noResults');
+        const loading = document.getElementById('loading');
+
+        // Utility functions
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        function getCategoryBadgeClass(category) {
+            return `badge-${category}`;
+        }
+
+        function createNewsCard(news, isFeatured = false) {
+            return `
+                <article class="news-card ${isFeatured ? 'featured' : ''}">
+                    <img src="${news.image}" alt="${news.title}" class="news-image">
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="category-badge ${getCategoryBadgeClass(news.category)}">
+                                ${news.category.toUpperCase()}
+                            </span>
+                            <span class="news-date">📅 ${formatDate(news.date)}</span>
+                        </div>
+                        <h3 class="news-title">${news.title}</h3>
+                        <p class="news-summary">${news.summary}</p>
+                        <div class="news-footer">
+                            <span class="news-author">👤 ${news.author}</span>
+                            <div class="news-stats">
+                                <span>👁️ ${news.views}</span>
+                                <span>💬 ${news.comments}</span>
+                                <button class="read-more">Baca Selengkapnya</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function filterNews() {
+            return newsData.filter(news => {
+                const matchesCategory = currentCategory === 'all' || news.category === currentCategory;
+                const matchesSearch = currentSearch === '' || 
+                    news.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    news.summary.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+        }
+
+        function updateCategoryCounts() {
+            const categories = ['all', 'akademik', 'prestasi', 'kegiatan', 'beasiswa', 'kerjasama'];
+            categories.forEach(cat => {
+                const count = cat === 'all' ? newsData.length : newsData.filter(n => n.category === cat).length;
+                const countEl = document.getElementById(`count-${cat}`);
+                if (countEl) countEl.textContent = count;
+            });
+        }
+
+        function renderNews() {
+            showLoading();
+            
+            setTimeout(() => {
+                const filtered = filterNews();
+                const featured = filtered.filter(n => n.featured);
+                const regular = filtered.filter(n => !n.featured);
+
+                // Update section visibility
+                if (currentCategory === 'all' && featured.length > 0) {
+                    featuredSection.style.display = 'block';
+                    featuredNews.innerHTML = featured.map(news => createNewsCard(news, true)).join('');
+                } else {
+                    featuredSection.style.display = 'none';
+                }
+
+                // Update section title
+                const categoryName = currentCategory === 'all' ? 'Semua Berita' : 
+                    currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+                sectionTitle.textContent = `📰 ${categoryName}`;
+
+                // Render regular news
+                const newsToShow = currentCategory === 'all' ? regular : filtered;
+                if (newsToShow.length > 0) {
+                    regularNews.innerHTML = newsToShow.map(news => createNewsCard(news)).join('');
+                    regularSection.style.display = 'block';
+                    noResults.style.display = 'none';
+                } else {
+                    if (currentCategory === 'all' && featured.length > 0) {
+                        regularSection.style.display = 'none';
+                    } else {
+                        regularSection.style.display = 'none';
+                        noResults.style.display = 'block';
+                    }
+                }
+
+                hideLoading();
+            }, 300);
+        }
+
+        function showLoading() {
+            loading.style.display = 'flex';
+            featuredSection.style.display = 'none';
+            regularSection.style.display = 'none';
+            noResults.style.display = 'none';
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        // Event listeners
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.dataset.category;
+                renderNews();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            renderNews();
+        });
+
+        searchBtn.addEventListener('click', () => {
+            currentSearch = searchInput.value;
+            renderNews();
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                currentSearch = e.target.value;
+                renderNews();
+            }
+        });
+
+        // Tag click events
+        document.querySelectorAll('.tag').forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                const tagText = e.target.textContent.replace('#', '');
+                searchInput.value = tagText;
+                currentSearch = tagText;
+                renderNews();
+            });
+        });
+
+        // Initialize
+        updateCategoryCounts();
+        renderNews();
+
+        // Add some smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah Kampus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Reset dan Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            min-height: 100vh;
+            /* Removed padding from body as it will be handled by container or content wrapping */
+        }
+
+        /* Header Navbar (dari perbaikan sebelumnya) */
+        .header-main-nav {
+            background: #3F6AC9;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            padding: 7px;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .nav-logo img {
+            max-height: 60px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 50px;
+        }
+        .nav-logo h2 {
+            color: #ecf0f1;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: georgia;
+            margin: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #C99E3F;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #3759a3;
+            min-width: 200px;
+            list-style: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid #2c3e50;
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: #C99E3F;
+            color: #dcc798;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background: #ecf0f1;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Kontainer Utama Halaman Sejarah */
+        .page-container { /* Renamed from .container to avoid conflict with nav-container and to wrap entire page content */
+            max-width: 800px;
+            margin: 40px auto 40px auto; /* Added top and bottom margin */
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        /* Header Konten Sejarah */
+        .hero-header-sejarah img{ /* Renamed from .header to avoid conflict with main nav header */
+            width: 100%;
+        }
+
+        .hero-header-sejarah::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-50px, -50px) rotate(0deg); }
+            100% { transform: translate(-50px, -50px) rotate(360deg); }
+        }
+
+        .hero-header-sejarah h1 { /* Specific selector for h1 inside hero-header-sejarah */
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-header-sejarah p { /* Specific selector for p inside hero-header-sejarah */
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.2s; }
+        .section:nth-child(2) { animation-delay: 0.4s; }
+        .section:nth-child(3) { animation-delay: 0.6s; }
+        .section:nth-child(4) { animation-delay: 0.8s; }
+        .section:nth-child(5) { animation-delay: 1s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .section h3 {
+            color: #2a5298;
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .section p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 25px;
+            border-left: 3px solid #667eea;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px white, 0 0 0 6px #667eea;
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 0 15px 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1e3c72;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        /* Footer (dari perbaikan sebelumnya) */
+        .footer {
+            background: #3F6AC9;
+            color: #ecf0f1;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin: 0 auto 2rem;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #C99E3F;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #C99E3F;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.2);
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 1rem;
+            text-align: center;
+            color: #bdc3c7;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 20px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-logo h2 {
+                font-size: 0.6rem;
+            }
+            .hamburger {
+                display: flex;
+                position: relative;
+                z-index: 1001;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #3F6AC9;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(35, 34, 34, 0.05);
+                padding: 2rem 0;
+                max-height: calc(100vh - 70px);
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 0;
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .nav-link {
+                padding: 15px 0;
+                justify-content: center;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                box-shadow: none;
+                background: #3759a3;
+                min-width: unset;
+                border-radius: 0;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-out;
+            }
+
+            .nav-item.open .dropdown-menu {
+                max-height: 500px;
+            }
+
+            .dropdown-menu li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .dropdown-menu li:last-child {
+                border-bottom: none;
+            }
+
+            .dropdown-menu a {
+                display: block;
+                padding: 10px 30px;
+                color: #ecf0f1;
+                text-align: left;
+                transition: background 0.3s ease;
+            }
+
+            .dropdown-menu a:hover {
+                background: #C99E3F;
+                color: #000;
+            }
+
+            .dropdown-arrow {
+                display: inline-block;
+                margin-left: 5px;
+            }
+
+            .nav-item.open .dropdown-arrow {
+                transform: rotate(180deg);
+            }
+            
+            .page-container { /* Sesuaikan untuk header halaman sejarah */
+                padding: 20px 10px;
+                border-radius: 15px;
+                margin: 20px auto; /* Adjust margin for mobile */
+            }
+            
+            .hero-header-sejarah {
+                padding: 40px 25px;
+            }
+            
+            .hero-header-sejarah h1 {
+                font-size: 2.2em;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+            
+            .section h2 {
+                font-size: 1.8em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Footer adjustments for mobile */
+            .footer-content{
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            .footer-section {
+                text-align: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .contact-info p {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-header-sejarah h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-main-nav">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="Gambar/logouniv.png" alt="University Technology Bintang Logo" class="logo-1">
+                    <h2>UNIVERSITAS TEKNOLOGI BINTANG</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Beranda</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="about.html" class="nav-link active">Tentang <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">Profil Universitas</a></li>
+                            <li><a href="sejarah.html">Sejarah</a></li>
+                        
+                            <li><a href="kepemimpinan.html">Pimpinan</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="akademis.html" class="nav-link">Akademis <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="akademis.html">Info Akademis</a></li>
+                            <li><a href="jadwal.html">Jadwal Kuliah</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="fakultas.html" class="nav-link">Fakultas <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="Fakultas/teknik.html">Fakultas Teknik</a></li>
+                            <li><a href="Fakultas/Ilmu komputer.html">Fakultas Ilmu Komputer</a></li>
+                            <li><a href="Fakultas/hukum.html">Fakultas Hukum</a></li>
+                            <li><a href="Fakultas/ilmusosial dan ilmu politik.html">Fakultas Ilmu Sosial Dan Politik</a></li>
+                            <li><a href="Fakultas/kedokteran.html">Fakultas Kedokteran</a></li>
+                          
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="mahasiswa.html" class="nav-link">Mahasiswa <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="beasiswa.html">Beasiswa</a></li>
+                            <li><a href="organisasi.html">Organisasi</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="kontak.html" class="nav-link">Kontak</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="hero-header-sejarah">
+            <img src="Gambar/univ2.png" alt="">
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Sejarah Pendirian</h2>
+                <p>Universitas Teknologi Bintang (UTB) didirikan pada tanggal 10 Januari 2002 sebagai respon terhadap kebutuhan pendidikan tinggi yang adaptif terhadap perkembangan teknologi global. Lahir dari gagasan sekelompok pendidik, praktisi teknologi, dan tokoh masyarakat yang memiliki visi untuk menciptakan universitas berbasis inovasi, UTB hadir dengan semangat “Menerangi Masa Depan dengan Teknologi.”</p>
+                
+                <p>Awalnya, UTB hanya memiliki dua fakultas: Fakultas Teknik dan Informatika, serta Fakultas Ilmu Komputer, dengan jumlah mahasiswa angkatan pertama sebanyak 180 orang. Perkuliahan saat itu masih dilakukan di satu gedung sewa di pusat kota. Meski sederhana, UTB berhasil membangun reputasi sebagai kampus yang mendorong kolaborasi, kreativitas, dan pemanfaatan teknologi mutakhir dalam proses belajar mengajar.</p>
+                <p>Seiring waktu, UTB terus berkembang pesat. Dalam kurun waktu lima tahun, universitas ini telah membuka lima fakultas baru, membangun kampus mandiri dengan laboratorium canggih, dan menjalin kerja sama dengan berbagai perusahaan teknologi serta institusi internasional.</p>
+                <p>Saat ini, UTB menjadi rumah bagi lebih dari 5.000 mahasiswa dari seluruh Indonesia, serta menjadi salah satu pelopor pendidikan berbasis teknologi dan kecerdasan buatan di Asia Tenggara.</p>
+            </div>
+
+            <div class="section">
+                <h2>Perkembangan Institusi</h2>
+                
+                <div class="timeline-item">
+                    <div class="timeline-year">2002 - Awal Berdirinya Universitas Teknologi Bintang</div>
+                    <p>Universitas Teknologi Bintang awalnya berdiri sebagai Institut Teknologi Bintang (ITB) pada tahun 2002, dengan fokus utama pada bidang teknik elektro dan informatika. Berlokasi di sebuah gedung sederhana di pinggiran kota, institut ini didirikan oleh sekelompok akademisi dan praktisi teknologi yang memiliki visi menciptakan pendidikan tinggi berbasis teknologi di Indonesia.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year"> 2005 – Penambahan Fakultas dan Laboratorium</div>
+                    <p>Institut mulai berkembang dengan dibukanya Fakultas Teknik Sipil dan pembangunan laboratorium pertama untuk riset teknologi dasar. Jumlah mahasiswa tumbuh menjadi lebih dari 500 orang.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">2010 – Digitalisasi Sistem Akademik</div>
+                    <p>Institut mulai menerapkan sistem informasi akademik berbasis web, salah satu yang pertama di wilayahnya. Saat itu, program studi Sistem Informasi resmi dibuka dan menarik banyak peminat.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">2018 – Kerja Sama Internasional</div>
+                    <p>UTB menjalin kerja sama dengan beberapa universitas luar negeri dan perusahaan teknologi global untuk program pertukaran mahasiswa, magang, serta riset bersama.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-year">2022 – Pembangunan Kampus Baru</div>
+                    <p>UTB meresmikan kampus barunya yang modern dan futuristik, lengkap dengan smart classroom, coworking space, dan pusat inovasi teknologi mahasiswa.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Visi dan Misi</h2>
+                
+                <div class="highlight-box">
+                    <h3>Visi</h3>
+                    <p>Menjadi universitas terkemuka di Asia Tenggara yang menghasilkan lulusan berkarakter, kompeten, dan berdaya saing global pada tahun 2030.</p>
+                </div>
+
+                <h3>Misi</h3>
+                <p>Menyelenggarakan pendidikan tinggi berkualitas dengan standar internasional
+Mengembangkan penelitian dan inovasi yang bermanfaat bagi masyarakat
+Melaksanakan pengabdian kepada masyarakat secara berkelanjutan
+Membangun karakter mahasiswa yang berintegritas dan berjiwa kepemimpinan</p>
+            </div>
+
+            <div class="section">
+                <h2>Prestasi dan Pencapaian</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <div class="stat-label">Fakultas</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <div class="stat-label">Program Studi</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">9000+</span>
+                        <div class="stat-label">Mahasiswa</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <div class="stat-label">Dosen</div>
+                    </div>
+                </div>
+
+                <p>UTB telah meraih berbagai prestasi nasional dan internasional dalam bidang akademik, penelitian, dan pengabdian masyarakat. Universitas ini telah menjadi salah satu institusi pendidikan terkemuka di Sumatera Utara dan berperan penting dalam mencetak tenaga pendidik berkualitas untuk wilayah Indonesia bagian barat.</p>
+
+                <p>Sebagai universitas yang berkomitmen pada excellence in education, UTB terus berinovasi dalam pengembangan kurikulum, metode pembelajaran, dan penelitian yang relevan dengan kebutuhan zaman. Alumni UTB tersebar di berbagai sektor dan telah berkontribusi signifikan dalam pembangunan pendidikan dan kemajuan bangsa.</p>
+            </div>
+
+            <div class="section">
+                <h2>Komitmen Masa Depan</h2>
+                <p>Memasuki era digital dan globalisasi, UTB berkomitmen untuk terus mengembangkan diri sebagai universitas modern yang tetap berpegang pada nilai-nilai luhur pendidikan. Dengan dukungan teknologi informasi dan komunikasi terkini, UTB siap menghadapi tantangan pendidikan abad ke-21 sambil mempertahankan karakteristik sebagai universitas yang mengutamakan pembentukan karakter dan profesionalisme.</p>
+
+                <p>Pengembangan kampus, peningkatan kualitas sumber daya manusia, dan penguatan kerjasama dengan berbagai institusi dalam dan luar negeri menjadi fokus utama untuk mewujudkan visi menjadi universitas unggul dan berkarakter yang diakui secara global.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (dari perbaikan sebelumnya) -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Universitas Teknologi Bintang</h3>
+                <p>Membangun generasi unggul melalui pendidikan berkualitas dan riset inovatif untuk kemajuan bangsa.</p>
+                <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+            </div>
+            <div class="footer-section">
+                <h4>Link Cepat</h4>
+                <ul>
+                    <li><a href="akademis.html">Info Akademis</a></li>
+                    <li><a href="fakultas.html">Fakultas</a></li>
+                    <li><a href="beasiswa.html">Beasiswa</a></li>
+                    <li><a href="pendaftaran.html">Pendaftaran</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Fakultas</h4>
+                <ul>
+                    <li><a href="Fakultas/teknik.html">Fakultas Teknik</a></li>
+                    <li><a href="Fakultas/Ilmu komputer.html">Fakultas Ilmu Komputer</a></li>
+                    <li><a href="Fakultas/hukum.html">Fakultas Hukum</a></li>
+                    <li><a href="fakultas.html">Semua Fakultas</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kontak</h4>
+                <div class="contact-info">
+                    <p>📍 Jl. Pendidikan No. 123, Jakarta Selatan</p>
+                    <p>📞 (021) 1234-5678</p>
+                    <p>✉️ info@universitteknologibintang.ac.id</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Universitas Teknologi Bintang. Semua hak dilindungi undang-undang.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+            // Toggle main navigation menu
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active'); // For animating hamburger icon
+                
+                // Close any open dropdowns when the main menu is toggled
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('open');
+                });
+            });
+
+            // Toggle dropdown sub-menus
+            dropdowns.forEach(dropdown => {
+                const dropdownLink = dropdown.querySelector('.nav-link');
+                
+                dropdownLink.addEventListener('click', function(event) {
+                    // Only prevent default if it's a dropdown link and on mobile
+                    if (window.innerWidth <= 768) { // Check if we are on mobile size
+                        event.preventDefault(); 
+                        dropdown.classList.toggle('open');
+
+                        // Close other open dropdowns if they are not the current one
+                        dropdowns.forEach(otherDropdown => {
+                            if (otherDropdown !== dropdown && otherDropdown.classList.contains('open')) {
+                                otherDropdown.classList.remove('open');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Optional: Close main menu when a link inside it is clicked (useful for single-page apps)
+            navMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    // Check if it's a non-dropdown link or if it's a dropdown link
+                    // that is now closed after being clicked.
+                    if (!link.closest('.dropdown') || !link.closest('.dropdown').classList.contains('open')) {
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            hamburger.classList.remove('active');
+                            // Also close any open dropdowns when main menu is closed
+                            dropdowns.forEach(dropdown => {
+                              dropdown.classList.remove('open');
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Close main menu and dropdowns if clicked outside
+            document.addEventListener('click', function(event) {
+              const isClickInsideNav = event.target.closest('.header-main-nav'); /* Update this to match your main nav header class */
+              if (!isClickInsideNav && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                  dropdown.classList.remove('open');
+                });
+              }
+            });
+
+            // Handle resize to reset menu state
+            window.addEventListener('resize', function() {
+              if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                dropdowns.forEach(dropdown => {
+                  dropdown.classList.remove('open');
+                });
+              }
+            });
+
+            // Smooth scrolling for anchor links (existing from your code)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Add animation on scroll (existing from your code)
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.section, .timeline-item, .stat-item').forEach(el => { /* Updated selectors for Sejarah page */
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

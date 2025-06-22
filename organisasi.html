@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organisasi Kampus - Universitas Teknologi Bintang</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Reset dan Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%); /* Unified background */
+            min-height: 100vh;
+            /* Removed padding from body as it will be handled by content wrapping */
+        }
+
+        /* Header & Navigation (Navbar Utama) */
+        .header-main-nav {
+            background: #3F6AC9; /* Warna navbar utama */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            padding: 7px;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .nav-logo img { /* Gaya untuk logo di navbar */
+            max-height: 60px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 50px;
+        }
+
+        .nav-logo h2 {
+            color: #ecf0f1;
+            font-size: 0.7rem; /* Ukuran font lebih kecil untuk branding */
+            font-weight: 600;
+            font-family: georgia;
+            margin: 0; /* Pastikan tidak ada margin default */
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0; /* Pastikan tidak ada margin default */
+            padding: 0; /* Pastikan tidak ada padding default */
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #C99E3F; /* Warna hover/active untuk link navigasi */
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #3759a3; /* Warna background dropdown */
+            min-width: 200px;
+            list-style: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid #2c3e50;
+        }
+
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: #C99E3F; /* Warna hover untuk item dropdown */
+            color: #dcc798;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background: #ecf0f1;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Container utama untuk halaman ini */
+        .page-content-wrapper { /* Renamed from .container to avoid conflict */
+            max-width: 900px; /* Original width retained */
+            margin: 40px auto 40px auto; /* Added top/bottom margin for separation from navbar/footer */
+            background: rgba(255, 255, 255, 0.95); /* Original background with opacity */
+            border-radius: 20px; /* Original border-radius */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        /* Header konten halaman "Organisasi Kampus" */
+        .content-header-organisasi { /* Renamed from .header to avoid conflict */
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            color: #3F6AC9;
+            border-radius: 15px; /* Original border-radius */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #3F6AC9;
+            font-weight: bold;
+        }
+
+        .content-header-organisasi h1 { /* Specific selector for h1 */
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            font-weight: 300;
+            margin-top: -15px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #3F6AC9;
+            margin-bottom: 20px;
+            font-weight: 600;
+            border-bottom: 3px solid #3F6AC9;
+            padding-bottom: 10px;
+        }
+
+        .org-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.05) 0%, rgba(52, 32, 201, 0.05) 100%); /* Lighter gradient */
+            border-radius: 10px;
+            border-left: 4px solid #3F6AC9;
+        }
+
+        .org-name {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #3F6AC9;
+            margin-bottom: 8px;
+        }
+
+        .org-description {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .org-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .detail-icon {
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
+
+        .intro-text {
+            font-size: 1.1em;
+            text-align: justify;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .highlight-box {
+            background: linear-gradient(120deg, rgba(42, 40, 167, 0.1) 0%, rgba(46, 32, 201, 0.1) 100%);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3F6AC9;
+        }
+
+        .category-header {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #3F6AC9;
+            margin: 25px 0 15px 0;
+            padding: 10px 0;
+            border-bottom: 2px solid rgba(59, 40, 167, 0.18); /* Adjusted opacity */
+        }
+
+        /* Footer */
+        .footer {
+            background: #3F6AC9; /* Warna footer yang konsisten */
+            color: #ecf0f1;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin: 0 auto 2rem;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #C99E3F; /* Warna highlight di footer */
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #C99E3F;
+        }
+
+                .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.2);
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 1rem;
+            text-align: center;
+            color: #bdc3c7;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 20px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-logo h2 {
+                font-size: 0.6rem;
+            }
+            .hamburger {
+                display: flex;
+                position: relative;
+                z-index: 1001;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: #3F6AC9;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(35, 34, 34, 0.05);
+                padding: 2rem 0;
+                max-height: calc(100vh - 70px);
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-item {
+                margin: 0;
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .nav-link {
+                padding: 15px 0;
+                justify-content: center;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                box-shadow: none;
+                background: #3759a3;
+                min-width: unset;
+                border-radius: 0;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-out;
+            }
+
+            .nav-item.open .dropdown-menu {
+                max-height: 500px;
+            }
+
+            .dropdown-menu li {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .dropdown-menu li:last-child {
+                border-bottom: none;
+            }
+
+            .dropdown-menu a {
+                display: block;
+                padding: 10px 30px;
+                color: #ecf0f1;
+                text-align: left;
+                transition: background 0.3s ease;
+            }
+
+            .dropdown-menu a:hover {
+                background: #C99E3F;
+                color: #000;
+            }
+
+            .dropdown-arrow {
+                display: inline-block;
+                margin-left: 5px;
+            }
+
+            .nav-item.open .dropdown-arrow {
+                transform: rotate(180deg);
+            }
+
+            .page-content-wrapper { /* Responsive adjustments for main container */
+                padding: 20px 15px;
+                border-radius: 15px;
+                margin: 20px auto;
+            }
+            
+            .content-header-organisasi h1 {
+                font-size: 2em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .org-details {
+                grid-template-columns: 1fr;
+            }
+
+            /* Footer adjustments for mobile */
+            .footer-content{
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            .footer-section {
+                text-align: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .contact-info p {
+                justify-content: center;
+            }
+        }
+        @media (max-width: 480px) {
+            .content-header-organisasi h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header-main-nav">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <!-- Updated src to use uploaded image ID -->
+                    <img src="Gambar/logouniv.png" alt="University Technology Bintang Logo" class="logo-1">
+                    <h2>UNIVERSITAS TEKNOLOGI BINTANG</h2>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Beranda</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">Tentang <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">Profil Universitas</a></li>
+                            <li><a href="sejarah.html">Sejarah</a></li>
+                            <li><a href="kepemimpinan.html">Pimpinan</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">Akademis <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="akademis.html">Info Akademis</a></li>
+                            <li><a href="jadwal.html">Jadwal Kuliah</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">Fakultas <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="Fakultas/teknik.html">Fakultas Teknik</a></li>
+                            <li><a href="Fakultas/Ilmu komputer.html">Fakultas Ilmu Komputer</a></li>
+                            <li><a href="Fakultas/hukum.html">Fakultas Hukum</a></li>
+                            <li><a href="Fakultas/ilmusosial dan ilmu politik.html">Fakultas Ilmu Sosial Dan Politik</a></li>
+                            <li><a href="Fakultas/kedokteran.html">Fakultas Kedokteran</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link active">Mahasiswa <span class="dropdown-arrow">▼</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="beasiswa.html">Beasiswa</a></li>
+                            <li><a href="organisasi.html">Organisasi</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="kontak.html" class="nav-link">Kontak</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-content-wrapper">
+        <!-- Header Konten Halaman -->
+        <div class="content-header-organisasi">
+           
+            <h1>Organisasi Kampus</h1>
+            <div class="subtitle">Universitas Teknologi Bintang</div>
+        </div>
+
+        <!-- Pengantar -->
+        <div class="section">
+            <h2 class="section-title">Tentang Kehidupan Berorganisasi</h2>
+            <div class="intro-text">
+                Universitas Kreatif menyediakan berbagai organisasi kemahasiswaan yang bertujuan untuk mengembangkan soft skill, kepemimpinan, dan jiwa sosial mahasiswa. Melalui organisasi-organisasi ini, mahasiswa dapat menyalurkan minat dan bakat mereka sambil berkontribusi positif bagi kampus dan masyarakat.
+            </div>
+            <div class="highlight-box">
+                <strong>Manfaat bergabung dengan organisasi:</strong> Mengembangkan kemampuan kepemimpinan, memperluas jaringan pertemanan, melatih komunikasi dan kerja tim, serta mendapatkan pengalaman praktis yang tidak didapat di dalam kelas.
+            </div>
+        </div>
+
+        <!-- Organisasi Mahasiswa -->
+        <div class="section">
+            <h2 class="section-title">Badan Eksekutif Mahasiswa (BEM)</h2>
+            
+            <div class="org-item">
+                <div class="org-name">BEM Universitas</div>
+                <div class="org-description">
+                    Badan Eksekutif Mahasiswa Universitas merupakan lembaga eksekutif tertinggi yang mewakili seluruh mahasiswa. BEM bertugas menjalankan program kerja yang bermanfaat bagi kemajuan mahasiswa dan almamater.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">👥</span>
+                        <span>50+ Anggota Aktif</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🎯</span>
+                        <span>Advokasi & Kesejahteraan</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">📅</span>
+                        <span>Rekrutmen: Februari & Agustus</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-item">
+                <div class="org-name">BEM Fakultas</div>
+                <div class="org-description">
+                    Setiap fakultas memiliki BEM sendiri yang fokus pada kepentingan mahasiswa di tingkat fakultas. BEM Fakultas berperan sebagai jembatan komunikasi antara mahasiswa dengan pihak fakultas.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🏢</span>
+                        <span>8 BEM Fakultas</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🎓</span>
+                        <span>Program Akademik</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🤝</span>
+                        <span>Koordinasi Fakultas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DPM -->
+        <div class="section">
+            <h2 class="section-title">Dewan Perwakilan Mahasiswa (DPM)</h2>
+            
+            <div class="org-item">
+                <div class="org-name">DPM Universitas</div>
+                <div class="org-description">
+                    Dewan Perwakilan Mahasiswa merupakan lembaga legislatif mahasiswa yang bertugas mengawasi kinerja BEM dan membuat kebijakan untuk kepentingan mahasiswa. DPM juga berperan dalam menampung aspirasi mahasiswa.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">⚖️</span>
+                        <span>Fungsi Legislatif</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">👁️</span>
+                        <span>Pengawasan BEM</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">📝</span>
+                        <span>Aspirasi Mahasiswa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UKM -->
+        <div class="section">
+            <h2 class="section-title">Unit Kegiatan Mahasiswa (UKM)</h2>
+            
+            <div class="category-header">🎨 UKM Seni dan Budaya</div>
+            
+            <div class="org-item">
+                <div class="org-name">UKM Paduan Suara</div>
+                <div class="org-description">
+                    Mengembangkan bakat bernyanyi dan apresiasi musik klasik. Rutin tampil dalam acara kampus dan kompetisi antar universitas.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🎵</span>
+                        <span>Musik Vokal</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🏆</span>
+                        <span>Juara Nasional 2023</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Tari Tradisional</div>
+                <div class="org-description">
+                    Melestarikan dan mengembangkan tari tradisional Indonesia. Aktif dalam pertunjukan budaya dan festival seni.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">💃</span>
+                        <span>Tari Nusantara</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🌍</span>
+                        <span>Pertukaran Budaya</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Teater</div>
+                <div class="org-description">
+                    Mengeksplorasi seni peran dan pertunjukan drama. Memproduksi pertunjukan teater berkualitas dengan tema sosial dan edukasi.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🎭</span>
+                        <span>Drama & Teater</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">📚</span>
+                        <span>Naskah Original</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-header">⚽ UKM Olahraga</div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Futsal</div>
+                <div class="org-description">
+                    Mengembangkan prestasi futsal mahasiswa melalui latihan rutin dan kompetisi. Tim futsal kampus merupakan salah satu yang terkuat di liga mahasiswa.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">⚽</span>
+                        <span>Tim Putra & Putri</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🥇</span>
+                        <span>Juara Regional</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Basket</div>
+                <div class="org-description">
+                    Melatih kemampuan bermain basket dan mengikuti berbagai turnamen. Memiliki fasilitas lapangan indoor yang memadai.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🏀</span>
+                        <span>Liga Mahasiswa</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🏟️</span>
+                        <span>Lapangan Indoor</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Badminton</div>
+                <div class="org-description">
+                    Membina atlet badminton kampus untuk mengikuti kompetisi tingkat regional dan nasional. Memiliki pelatih bersertifikat internasional.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🏸</span>
+                        <span>Tunggal & Ganda</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">👨‍🏫</span>
+                        <span>Pelatih Profesional</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-header">💻 UKM Teknologi dan Ilmiah</div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Robotika</div>
+                <div class="org-description">
+                    Mengembangkan inovasi teknologi robotika dan automasi. Aktif dalam kompetisi robotika nasional dan internasional.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🤖</span>
+                        <span>AI & Robotika</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🌐</span>
+                        <span>Kompetisi Internasional</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Fotografi</div>
+                <div class="org-description">
+                    Mengasah kemampuan fotografi dan videografi mahasiswa. Menyediakan jasa dokumentasi acara kampus dan workshop teknik fotografi.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">📸</span>
+                        <span>Foto & Video</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🎨</span>
+                        <span>Workshop Rutin</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-header">🌱 UKM Sosial dan Lingkungan</div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Pecinta Alam</div>
+                <div class="org-description">
+                    Menumbuhkan kesadaran lingkungan dan kecintaan terhadap alam. Rutin mengadakan kegiatan pendakian, konservasi, dan edukasi lingkungan.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🏔️</span>
+                        <span>Pendakian & Konservasi</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">🌳</span>
+                        <span>Program Lingkungan</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-item">
+                <div class="org-name">UKM Relawan</div>
+                <div class="org-description">
+                    Mengorganisir kegiatan sosial dan kemanusiaan untuk membantu masyarakat yang membutuhkan. Aktif dalam program pengabdian masyarakat.
+                </div>
+                <div class="org-details">
+                    <div class="detail-item">
+                        <span class="detail-icon">🤝</span>
+                        <span>Kegiatan Sosial</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-icon">❤️</span>
+                        <span>Program Kemanusiaan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informasi Pendaftaran -->
+        <div class="section">
+            <h2 class="section-title">Informasi Pendaftaran</h2>
+            <div class="intro-text">
+                Pendaftaran organisasi kampus biasanya dibuka pada awal semester (Februari dan Agustus). Setiap organisasi memiliki prosedur pendaftaran yang berbeda, mulai dari pendaftaran terbuka hingga seleksi ketat.
+            </div>
+            <div class="highlight-box">
+                <strong>Cara bergabung:</strong> Kunjungi stand organisasi saat Expo Organisasi, ikuti akun media sosial masing-masing organisasi, atau hubungi langsung pengurus melalui kontak yang tersedia di bulletin board kampus. Jangan takut untuk mencoba hal baru dan temukan passion Anda!
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Universitas Teknologi Bintang</h3>
+                <p>Membangun generasi unggul melalui pendidikan berkualitas dan riset inovatif untuk kemajuan bangsa.</p>
+                <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+            </div>
+            <div class="footer-section">
+                <h4>Link Cepat</h4>
+                <ul>
+                    <li><a href="akademis.html">Info Akademis</a></li>
+                    <li><a href="fakultas.html">Fakultas</a></li>
+                    <li><a href="beasiswa.html">Beasiswa</a></li>
+                    <li><a href="pendaftaran.html">Pendaftaran</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Fakultas</h4>
+                <ul>
+                    <li><a href="Fakultas/teknik.html">Fakultas Teknik</a></li>
+                    <li><a href="Fakultas/Ilmu komputer.html">Fakultas Ilmu Komputer</a></li>
+                    <li><a href="Fakultas/hukum.html">Fakultas Hukum</a></li>
+                    <li><a href="fakultas.html">Semua Fakultas</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Kontak</h4>
+                <div class="contact-info">
+                    <p>📍 Jl. Pendidikan No. 123, Jakarta Selatan</p>
+                    <p>📞 (021) 1234-5678</p>
+                    <p>✉️ info@universitteknologibintang.ac.id</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Universitas Teknologi Bintang. Semua hak dilindungi undang-undang.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const dropdowns = document.querySelectorAll('.nav-item.dropdown');
+
+            // Toggle main navigation menu
+            hamburger.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active'); // For animating hamburger icon
+                
+                // Close any open dropdowns when the main menu is toggled
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('open');
+                });
+            });
+
+            // Toggle dropdown sub-menus
+            dropdowns.forEach(dropdown => {
+                const dropdownLink = dropdown.querySelector('.nav-link');
+                
+                dropdownLink.addEventListener('click', function(event) {
+                    // Only prevent default if it's a dropdown link and on mobile
+                    if (window.innerWidth <= 768) { // Check if we are on mobile size
+                        event.preventDefault(); 
+                        dropdown.classList.toggle('open');
+
+                        // Close other open dropdowns if they are not the current one
+                        dropdowns.forEach(otherDropdown => {
+                            if (otherDropdown !== dropdown && otherDropdown.classList.contains('open')) {
+                                otherDropdown.classList.remove('open');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Optional: Close main menu when a link inside it is clicked (useful for single-page apps)
+            navMenu.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    // Check if it's a non-dropdown link or if it's a dropdown link
+                    // that is now closed after being clicked.
+                    if (!link.closest('.dropdown') || !link.closest('.dropdown').classList.contains('open')) {
+                        if (navMenu.classList.contains('active')) {
+                            navMenu.classList.remove('active');
+                            hamburger.classList.remove('active');
+                            // Also close any open dropdowns when main menu is closed
+                            dropdowns.forEach(dropdown => {
+                              dropdown.classList.remove('open');
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Close main menu and dropdowns if clicked outside
+            document.addEventListener('click', function(event) {
+              const isClickInsideNav = event.target.closest('.header-main-nav');
+              if (!isClickInsideNav && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                // Close all dropdowns
+                dropdowns.forEach(dropdown => {
+                  dropdown.classList.remove('open');
+                });
+              }
+            });
+
+            // Handle resize to reset menu state
+            window.addEventListener('resize', function() {
+              if (window.innerWidth > 768) {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                dropdowns.forEach(dropdown => {
+                  dropdown.classList.remove('open');
+                });
+              }
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.section, .org-item, .highlight-box').forEach(el => { /* Targeted elements for this specific page */
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
